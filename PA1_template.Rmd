@@ -19,8 +19,12 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 ```{r}
 ## Load the data (i.e. read.csv())
 data <- read.csv('activity.csv')
+cat("Data Dimensions: ", dim(data), "\n\n")
+cat("Data Summary: \n", summary(data), "\n\n")
+head(data)
 
 ## Process/transform the data (if necessary) into a format suitable for your analysis
+data_no_na <- na.omit(data)
 ```
 
 
@@ -29,8 +33,21 @@ data <- read.csv('activity.csv')
 ## For this part of the assignment, you can ignore the missing values in the dataset.
 
 ## 1. Make a histogram of the total number of steps taken each day
+### Create table calculating total steps
+total_steps <- aggregate(data_no_na$steps, by=list(data_no_na$date), sum)
+### Rename columns (makes it easier to make histogram)
+colnames(total_steps)[1:2] <- c("date", "total_steps")
+### Create histogram
+hist(total_steps$total_steps, main ="Histogram of the Total Number of Steps Taken Each Day", xlab = "Total Number of Steps")
 
 ## 2. Calculate and report the mean and median total number of steps taken per day
+### Caluclate mean
+mean <- mean(total_steps$total_steps)
+### Calculate median
+median <- median(total_steps$total_steps)
+### Print results
+cat("Mean: ", mean, "\n\n")
+cat("Median:", median)
 ```
 
 ## What is the average daily activity pattern?
